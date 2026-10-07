@@ -1,0 +1,31 @@
+[package]
+name = "nqs-config"
+version = "0.1.0"
+edition = "2021"
+license = "AGPL-3.0-or-later"
+
+[lib]
+name = "nqs_config_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[[bin]]
+name = "nqs-config"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-shell = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["rt", "time"] }
+serialport = "4"
+hex = "0.4"
+automotive_diag = { version = "0.1", default-features = false, features = [
+  "kwp2000",
+  "std",
+] }
+

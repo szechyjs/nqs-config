@@ -1,0 +1,65 @@
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 12px;
+  background: var(--surface);
+  min-height: 34px;
+  color: var(--text-muted);
+}
+
+.status-bar__left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-bar__detail-btn {
+  background: color-mix(in srgb, var(--danger) 15%, transparent);
+  color: #ff6b6b;
+  border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 6px;
+  transition: all 0.12s ease;
+  line-height: 1.2;
+}
+
+.status-bar__detail-btn:hover {
+  background: color-mix(in srgb, var(--danger) 25%, transparent);
+  border-color: var(--danger);
+  color: #ff8888;
+}
+
+.status-bar--busy .status-bar__left {
+  color: var(--text-label);
+}
+
+.status-bar--ok .status-bar__left {
+  color: #6bbf6b;
+}
+
+.status-bar--error .status-bar__left {
+  color: var(--danger);
+}
+
+.status-bar__spinner {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

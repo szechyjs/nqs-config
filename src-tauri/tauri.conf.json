@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "NQS Config",
+  "version": "0.1.0",
+  "identifier": "com.jsstechllc.nqs-config",
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "NQS Config",
+        "width": 550,
+        "height": 768,
+        "minWidth": 550,
+        "minHeight": 600,
+        "maxWidth": 550,
+        "resizable": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "macOS": {
+      "signingIdentity": "Developer ID Application: JSS Technologies, LLC (A3DA4JBHAM)",
+      "entitlements": "./entitlements.plist"
+    },
+    "windows": {
+      "nsis": {
+        "installMode": "both"
+      }
+    }
+  }
+}
