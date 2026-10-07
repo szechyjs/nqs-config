@@ -15,6 +15,13 @@ It decodes and edits two bit-packed configuration blocks via KWP2000
 See `src-tauri/src/nqs.rs` for the full bit layout and
 `src-tauri/src/kwp.rs` for the KWP2000 service/security-access details.
 
+## Installation
+
+Prebuilt binaries for Windows and macOS are available on the
+[Releases page](https://github.com/szechyjs/nqs-config/releases).
+
+To build from source instead, see [Development](#development) below.
+
 ## Hardware
 
 Communication runs over a [CANable](https://canable.io/) USB-to-CAN adapter
