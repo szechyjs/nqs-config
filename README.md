@@ -24,7 +24,7 @@ To build from source instead, see [Development](#development) below.
 
 ## Hardware
 
-Communication runs over a [CANable](https://canable.io/) USB-to-CAN adapter
+Communication runs over a [CANable](https://canable.io/) ([Amazon Alternative](https://amzn.to/4gpPRsv)) USB-to-CAN adapter
 using the SLCAN protocol at 50 kbps, wired to the vehicle's EOBD connector:
 
 | Signal | OBD-II Pin |
