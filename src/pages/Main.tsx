@@ -104,45 +104,13 @@ export function Main() {
     setBusy(true)
     setStatus({ text: 'Writing ECU…', kind: 'busy' })
 
-    // First pass — force=false so consistency check runs on the Rust side.
     try {
-      const snapshot = await writeConfig(port, pending, false)
+      const snapshot = await writeConfig(port, pending)
       setConfig(snapshot)
       setPending({})
       setStatus({ text: 'Write OK — ECU verified', kind: 'ok' })
-      return
     } catch (e) {
-      const msg = String(e)
-
-      // If the Rust side returned a consistency warning, offer a bypass.
-      if (msg.startsWith('CONSISTENCY_WARNING:')) {
-        const warning = msg.replace('CONSISTENCY_WARNING:', '').trim()
-        setBusy(false)
-
-        const force = await confirm(
-          `${warning}\n\nThis is expected for manual-swapped cars.\nWrite anyway?`,
-          { title: 'Inconsistent Configuration', kind: 'warning' },
-        )
-        if (!force) {
-          setStatus({ text: 'Write cancelled', kind: 'idle' })
-          return
-        }
-
-        // Second pass — force=true bypasses the consistency check.
-        setBusy(true)
-        setStatus({ text: 'Writing ECU…', kind: 'busy' })
-        try {
-          const snapshot = await writeConfig(port, pending, true)
-          setConfig(snapshot)
-          setPending({})
-          setStatus({ text: 'Write OK — ECU verified', kind: 'ok' })
-        } catch (e2) {
-          setStatus({ text: 'Write failed', kind: 'error', detail: String(e2) })
-        }
-        return
-      }
-
-      setStatus({ text: 'Write failed', kind: 'error', detail: msg })
+      setStatus({ text: 'Write failed', kind: 'error', detail: String(e) })
     } finally {
       setBusy(false)
     }

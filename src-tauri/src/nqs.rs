@@ -453,10 +453,11 @@ impl fmt::Display for Config24 {
 
 /// Decoded NQS engine variant from the `$22` block (1 byte).
 ///
-/// Writable via [`Config22::set_variant`]. The EngineVar is tied to the
-/// gearbox/flywheel configuration in `$24` — [`consistency_warning`] checks
-/// this pairing and surfaces a warning (which the caller may choose to
-/// bypass) when they don't match the expected combination.
+/// Writable via [`Config22::set_variant`]. SDX pairs specific flywheel values
+/// with specific gearbox types by convention, but real cars are known to
+/// ship with other combinations (e.g. factory F1 + 1x flywheel), so this
+/// tool does not attempt to validate or warn about the pairing — it simply
+/// writes whatever value the user requests.
 ///
 /// Note this tool does **not** coordinate the write with the `$2E` hardware
 /// configuration block the way the full Proxi Programming IOLI (IOLI 83)
@@ -516,37 +517,6 @@ impl Config22 {
 impl fmt::Display for Config22 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "  Engine variant : {}", self.engine_variant())
-    }
-}
-
-// ---------------------------------------------------------------------------
-// Consistency validation
-// ---------------------------------------------------------------------------
-
-/// Check whether the engine variant (`$22`) and gearbox type (`$24` bit 2) are
-/// consistent with the expected SDX pairings.
-///
-/// Returns `Some(warning)` when the combination is unusual:
-/// - 1× flywheel (`0x03`) paired with F1 gearbox (`$24` bit 2 = 0)
-/// - 4× flywheel (`0x04`) paired with manual gearbox (`$24` bit 2 = 1)
-///
-/// Returns `None` when the combination is expected, or when the engine variant
-/// has no defined pairing (0x00, 0x05, or unknown).
-///
-/// A `Some` result does not prevent writing — the caller decides whether to
-/// proceed (e.g. for a manual-swapped car that retains the original flywheel).
-pub fn consistency_warning(c22: &Config22, c24: &Config24) -> Option<&'static str> {
-    let gearbox_is_manual = c24.as_bytes()[0] & 0x04 != 0;
-    match c22.as_byte() {
-        0x03 if !gearbox_is_manual => Some(
-            "1× flywheel is typically paired with a manual gearbox, \
-             but gearbox is set to F1.",
-        ),
-        0x04 if gearbox_is_manual => Some(
-            "4× flywheel is typically paired with an F1 gearbox, \
-             but gearbox is set to Manual.",
-        ),
-        _ => None,
     }
 }
 

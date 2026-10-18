@@ -11,9 +11,8 @@ export const readConfig = (port: string): Promise<NqsSnapshot> =>
 export const writeConfig = (
   port: string,
   changes: Record<string, string>,
-  force = false,
 ): Promise<NqsSnapshot> =>
-  invoke<NqsSnapshot>('write_config', { port, changes, force })
+  invoke<NqsSnapshot>('write_config', { port, changes })
 
 export const onPortsChanged = (
   callback: (ports: string[]) => void,

@@ -83,7 +83,6 @@ pub fn read_config(port: String) -> Result<nqs::NqsSnapshot, String> {
 pub async fn write_config(
     port: String,
     changes: HashMap<String, String>,
-    force: bool,
 ) -> Result<nqs::NqsSnapshot, String> {
     let mut can = slcan::Slcan::open(&port, 2)?;
 
@@ -118,13 +117,6 @@ pub async fn write_config(
             continue;
         }
         cfg24.set_field(field, value)?;
-    }
-
-    // --- Consistency check ---
-    if !force {
-        if let Some(warning) = nqs::consistency_warning(&cfg22, &cfg24) {
-            return Err(format!("CONSISTENCY_WARNING:{warning}"));
-        }
     }
 
     // --- Write to ECU (security access required for both $22 and $24) ---
