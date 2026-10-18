@@ -304,6 +304,7 @@ mod tests {
     }
 
     #[test]
+    #[allow(clippy::identity_op)] // spelled out for clarity, not a mistake
     fn security_access_key_wraps() {
         // 0xFF ^ 0xFF = 0x00; 0x00 + 3 = 0x03 (no wrap)
         assert_eq!((0xFFu8 ^ 0xFF).wrapping_add(3), 0x03);

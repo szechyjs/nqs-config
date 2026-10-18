@@ -618,6 +618,7 @@ mod tests {
     }
 
     #[test]
+    #[allow(clippy::identity_op)] // spelled out for clarity, not a mistake
     fn set_field_preserves_other_bits() {
         // Start with all bits set.
         let mut c = Config24::from_bytes(&[0xFF, 0xFF]).unwrap();
